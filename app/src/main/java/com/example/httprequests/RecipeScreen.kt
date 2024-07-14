@@ -1,7 +1,9 @@
 package com.example.httprequests
 
+import android.text.Layout
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
@@ -22,11 +24,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import java.lang.reflect.Modifier
 
 @Composable
 
@@ -38,10 +42,11 @@ fun RecipeScreen(modifier: Modifier = Modifier) {
     Box (modifier = Modifier.fillMaxSize()){
          when{
            viewState.isLoading ->{
-               CircularProgressIndicator(modifier.align(Alignment.Center))
+               CircularProgressIndicator(modifier.align(Layout.Alignment.Center))
            }
              viewState.error != null ->{
-                 Text(text = "Error occurred")
+//                 Text(text = "Error occurred")
+                 ErrorScreen( modifier = modifier.fillMaxSize())
              }
              else ->{
                  CategoryScreen(categories = viewState.list)
@@ -109,5 +114,17 @@ fun CategoryItem(category: Category) {
       }
       }
 
-
   }
+@Composable
+fun ErrorScreen(modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.img), contentDescription = ""
+        )
+        Text(text = "Loading Failed", modifier = Modifier.padding(16.dp))
+    }
+}
