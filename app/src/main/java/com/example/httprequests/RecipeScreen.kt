@@ -30,38 +30,33 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
-import java.lang.reflect.Modifier
+
 
 @Composable
+fun RecipeScreen() {
+    val recipeViewModel: MainViewModel = viewModel()
+    val viewState by recipeViewModel.categoriesState
 
-fun RecipeScreen(modifier: Modifier = Modifier) {
-
-     val recipeViewModel: MainViewModel = viewModel()
-     val viewState by recipeViewModel.categoriesState
-
-    Box (modifier = Modifier.fillMaxSize()){
-         when{
-           viewState.isLoading ->{
-               CircularProgressIndicator(modifier.align(Layout.Alignment.Center))
-           }
-             viewState.error != null ->{
-//                 Text(text = "Error occurred")
-                 ErrorScreen( modifier = modifier.fillMaxSize())
-             }
-             else ->{
-                 CategoryScreen(categories = viewState.list)
-             }
-         }
-
+    Box(modifier = Modifier.fillMaxSize()) {
+        when {
+            viewState.isLoading -> {
+                CircularProgressIndicator(modifier = Modifier.align(alignment = Alignment.Center))
+            }
+            viewState.error != null -> {
+                ErrorScreen(modifier = Modifier.fillMaxSize())
+            }
+            else -> {
+                CategoryScreen(categories = viewState.list)
+            }
+        }
     }
-
 }
 
 @Composable
 
 fun CategoryScreen(categories: List<Category>) {
 
-    LazyVerticalGrid(GridCells.Fixed(2), modifier = Modifier.fillMaxSize()) {
+    LazyVerticalGrid(GridCells.Fixed(2), modifier = androidx.compose.ui.Modifier.fillMaxSize()) {
         items (categories){
                      category->
                       CategoryItem(category = category)
